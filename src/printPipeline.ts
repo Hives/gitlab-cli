@@ -1,10 +1,10 @@
 import {addSeconds, format} from 'date-fns'
-import {Stage} from "./model/Stage";
-import {Pipeline} from "./model/Pipeline";
-import {Job} from "./model/Job";
-import chalk from "chalk";
+import {Stage} from "./domain/Stage";
+import {Pipeline} from "./domain/Pipeline";
+import {Job} from "./domain/Job";
+import {applyStatusStyle, applyStyle} from "./applyStatusStyle.js";
 
-// 8:09pm Fri 26th Nov
+// format like: 8:09pm Fri 26th Nov
 const dateFormat = 'h:mmaaa iii do LLL'
 
 export function printPipeline(pipeline: Pipeline): void {
@@ -13,58 +13,28 @@ export function printPipeline(pipeline: Pipeline): void {
 }
 
 function printHeading(pipeline: Pipeline): void {
-    const {project, created_by, created_at} = pipeline;
-    console.log(`Project: ${project}`)
-    console.log(`Start time: ${formatDateTime(created_at)}`)
-    console.log(`Triggered by: ${created_by}`)
+    const {project, createdBy, createdAt, commitTitle} = pipeline;
+    const formattedProject = applyStyle(project, 'highlight')
+    const formattedTime = applyStyle(formatDateTime(createdAt), 'highlight')
+    const formattedCreatedBy = applyStyle(createdBy, 'highlight')
+
+    console.log(formattedProject)
+    console.log(`Triggered at ${formattedTime} by ${formattedCreatedBy}`)
+    console.log(commitTitle)
     console.log()
 }
 
 function printStage(stage: Stage): void {
     const {name, status, jobs} = stage
-    const message = style(`  ${statusIcon(status)} ${name}`, status)
+    const message = applyStatusStyle(`  ${statusIcon(status)} ${name}`, status)
     console.log(message)
     jobs.forEach(printJob)
 }
 
 function printJob(job: Job): void {
     const {name, status, duration} = job
-    const message = style(`    ${statusIcon(status)} ${name} ${formatJobDuration(duration)}`, status)
+    const message = applyStatusStyle(`    ${statusIcon(status)} ${name} ${formatJobDuration(duration)}`, status)
     console.log(message)
-}
-
-function style(message: string, status: string): string {
-    let style: (text: string) => string;
-    switch (status) {
-        case 'success':
-            style = text => chalk.green(text)
-            break;
-        case 'failed':
-            style = text => chalk.red(text)
-            break;
-        case 'running':
-            style = text => chalk.yellow(text)
-            break;
-        case 'pending':
-            style = text => chalk.blue(text)
-            break;
-        case 'canceled':
-            style = text => chalk.red(text)
-            break;
-        case 'skipped':
-            style = text => chalk.white(text)
-            break;
-        case 'manual':
-            style = text => chalk.white(text)
-            break;
-        case 'created':
-            style = text => chalk.white(text)
-            break;
-        default:
-            style = text => chalk.white(text)
-            break;
-    }
-    return style(message);
 }
 
 function formatDateTime(dateTime: Date): string {
