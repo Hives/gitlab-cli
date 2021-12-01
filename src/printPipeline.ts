@@ -26,14 +26,14 @@ function printHeading(pipeline: Pipeline): void {
 
 function printStage(stage: Stage): void {
     const {name, status, jobs} = stage
-    const message = applyStatusStyle(`  ${statusIcon(status)} ${name}`, status)
+    const message = `  ${statusIcon(status)} ${name}`
     console.log(message)
     jobs.forEach(printJob)
 }
 
 function printJob(job: Job): void {
     const {name, status, duration} = job
-    const message = applyStatusStyle(`    ${statusIcon(status)} ${name} ${formatJobDuration(duration)}`, status)
+    const message = `    ${statusIcon(status)} ${name} ${formatJobDuration(duration)}`
     console.log(message)
 }
 
@@ -48,24 +48,25 @@ function formatJobDuration(duration: number | undefined): string {
 }
 
 function statusIcon(status: string): string {
+    const style = (message: string): string => applyStatusStyle(message, status)
     switch (status) {
         case 'success':
-            return "✔"
+            return style("✓")
         case 'failed':
-            return "❌"
+            return style("✕")
         case 'running':
-            return "⏳"
+            return style("⧖")
         case 'pending':
-            return "🕑"
+            return style("⏲")
         case 'canceled':
-            return "⛔"
+            return style("☠")
         case 'skipped':
-            return "⏩"
+            return style("»")
         case 'manual':
-            return "⚙"
+            return style("⚙")
         case 'created':
-            return "🚫"
+            return style("»")
         default:
-            return "⁉"
+            return style("⁉")
     }
 }

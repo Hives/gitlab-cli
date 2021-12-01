@@ -3,7 +3,7 @@ import chalk from "chalk";
 export function applyStyle(message: string, style: string): string {
   switch (style) {
     case 'highlight':
-      return chalk.yellow(message)
+      return chalk.whiteBright(message)
     default:
       return chalk.white(message)
   }
