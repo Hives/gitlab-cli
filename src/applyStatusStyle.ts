@@ -4,6 +4,8 @@ export function applyStyle(message: string, style: string): string {
   switch (style) {
     case 'highlight':
       return chalk.whiteBright(message)
+    case 'lowlight':
+      return chalk.grey(message)
     default:
       return chalk.white(message)
   }

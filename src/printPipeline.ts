@@ -26,15 +26,16 @@ function printHeading(pipeline: Pipeline): void {
 
 function printStage(stage: Stage): void {
     const {name, status, jobs} = stage
-    const message = `  ${statusIcon(status)} ${name}`
+    const message = `  ${getStatusIcon(status)} ${name}`
     console.log(message)
     jobs.forEach(printJob)
 }
 
 function printJob(job: Job): void {
     const {name, status, duration} = job
-    const message = `    ${statusIcon(status)} ${name} ${formatJobDuration(duration)}`
-    console.log(message)
+    const statusIcon = getStatusIcon(status)
+    const message = applyStyle(`${name} ${formatJobDuration(duration)}`, 'lowlight')
+    console.log(`    ${statusIcon} ${message}`)
 }
 
 function formatDateTime(dateTime: Date): string {
@@ -47,7 +48,7 @@ function formatJobDuration(duration: number | undefined): string {
     return format(helperDate, 'mm:ss')
 }
 
-function statusIcon(status: string): string {
+function getStatusIcon(status: string): string {
     const style = (message: string): string => applyStatusStyle(message, status)
     switch (status) {
         case 'success':
