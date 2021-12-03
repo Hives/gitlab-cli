@@ -23,3 +23,7 @@ like `tsc` in the root folder. Required Typescript to be installed:
 npm i -g typescript
 ```
 
+## TODO
+
+- Gets the ordering of stages wrong sometimes
+
