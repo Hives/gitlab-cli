@@ -17,7 +17,7 @@ function printHeading(pipeline: Pipeline): void {
     const formattedTime = applyStyle(formatDateTime(createdAt), 'normal')
     const formattedCreatedBy = applyStyle(createdBy, 'normal')
 
-    console.log(project)
+    console.log(`${project} ${applyStyle('pipeline', 'lowlight')}`)
     console.log(applyStyle(`Triggered at ${formattedTime} by ${formattedCreatedBy}`, 'lowlight'))
     console.log(commitTitle)
     console.log()
