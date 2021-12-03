@@ -14,12 +14,11 @@ export function printPipeline(pipeline: Pipeline): void {
 
 function printHeading(pipeline: Pipeline): void {
     const {project, createdBy, createdAt, commitTitle} = pipeline;
-    const formattedProject = applyStyle(project, 'highlight')
-    const formattedTime = applyStyle(formatDateTime(createdAt), 'highlight')
-    const formattedCreatedBy = applyStyle(createdBy, 'highlight')
+    const formattedTime = applyStyle(formatDateTime(createdAt), 'normal')
+    const formattedCreatedBy = applyStyle(createdBy, 'normal')
 
-    console.log(formattedProject)
-    console.log(`Triggered at ${formattedTime} by ${formattedCreatedBy}`)
+    console.log(project)
+    console.log(applyStyle(`Triggered at ${formattedTime} by ${formattedCreatedBy}`, 'lowlight'))
     console.log(commitTitle)
     console.log()
 }
