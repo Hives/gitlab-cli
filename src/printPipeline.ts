@@ -57,6 +57,7 @@ function getStatusIcon(status: string): string {
         case 'running':
             return style("⧖")
         case 'pending':
+        case 'waiting_for_resource':
             return style("⏲")
         case 'canceled':
             return style("☠")
@@ -67,6 +68,7 @@ function getStatusIcon(status: string): string {
         case 'created':
             return style("»")
         default:
+            console.log(status)
             return style("⁉")
     }
 }

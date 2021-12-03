@@ -77,6 +77,7 @@ function getStageStatus(jobs: Job[]): string {
     if (jobs.some(job => job.status === 'failed')) return 'failed';
     if (jobs.some(job => job.status === 'running')) return 'running';
     if (jobs.some(job => job.status === 'pending')) return 'pending';
+    if (jobs.some(job => job.status === 'waiting_for_resource')) return 'pending';
     if (jobs.some(job => job.status === 'canceled')) return 'canceled';
     if (jobs.some(job => job.status === 'skipped')) return 'skipped';
     if (jobs.some(job => job.status === 'manual')) return 'manual';
